@@ -43,4 +43,12 @@ public class BookController {
     public Book createBook(@RequestBody Book book) {
         return memory.addBook(book);
     }
+
+    @PutMapping
+    public String modifyBook(@RequestBody Book book) {
+        if (memory.updateBook(book)) {
+            return "Succeed";
+        }
+        return "Something went wrong";
+    }
 }

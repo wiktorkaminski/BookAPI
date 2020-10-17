@@ -29,25 +29,41 @@ public class MemoryBookService {
     }
 
     public Optional<Book> getBookById(long id) {
-        return list.stream().filter(item -> item.getId() == id)
+        return list.stream()
+                .filter(item -> item.getId() == id)
+                .findFirst();
+    }
+
+    public Optional<Book> getBookByIsbn(Book book) {
+        return list.stream()
+                .filter(listItem -> listItem.getIsbn().equals(book.getIsbn()))
                 .findFirst();
     }
 
     public Book addBook(Book book) {
-        if (!bookIsAlreadyInMemory(book)) {
+        if (getBookByIsbn(book).isEmpty()) {
             book.setId(nextId++);
             list.add(book);
             return book;
         } else return list.stream()
-                .filter(listItem->listItem.getIsbn().equals(book.getIsbn()))
+                .filter(listItem -> listItem.getIsbn().equals(book.getIsbn()))
                 .findFirst().get();
     }
 
-    private boolean bookIsAlreadyInMemory(Book book) {
-        for (Book b : list) {
-            if (b.getIsbn().equals(book.getIsbn())) {
-                return true;
-            }
+//    private boolean bookByIsbnIsAlreadyInMemory(Book book) {
+//        for (Book b : list) {
+//            if (b.getIsbn().equals(book.getIsbn())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    public boolean updateBook(Book book) {
+        if (getBookById(book.getId()).isPresent()) {
+            int bookIndex = list.indexOf(getBookById(book.getId()).get());
+            list.set(bookIndex, book);
+            return true;
         }
         return false;
     }
