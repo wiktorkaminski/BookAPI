@@ -9,6 +9,7 @@ import java.util.Optional;
 @Component
 public class MemoryBookService {
     private List<Book> list;
+    private static Long nextId = 4L;
 
     public MemoryBookService() {
         this.MockBookService();
@@ -31,4 +32,24 @@ public class MemoryBookService {
         return list.stream().filter(item -> item.getId() == id)
                 .findFirst();
     }
+
+    public Book addBook(Book book) {
+        if (!bookIsAlreadyInMemory(book)) {
+            book.setId(nextId++);
+            list.add(book);
+            return book;
+        } else return list.stream()
+                .filter(listItem->listItem.getIsbn().equals(book.getIsbn()))
+                .findFirst().get();
+    }
+
+    private boolean bookIsAlreadyInMemory(Book book) {
+        for (Book b : list) {
+            if (b.getIsbn().equals(book.getIsbn())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
