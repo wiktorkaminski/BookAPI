@@ -68,4 +68,11 @@ public class MemoryBookService {
         return false;
     }
 
+    public boolean removeBook(long id) {
+        if (getBookById(id).isPresent()) {
+            list.removeIf(book -> book.getId() == id);
+            return true;
+        } else return false;
+    }
+
 }

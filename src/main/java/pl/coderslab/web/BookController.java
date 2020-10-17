@@ -51,4 +51,12 @@ public class BookController {
         }
         return "Something went wrong";
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteBook(@PathVariable long id) {
+        if (memory.removeBook(id)) {
+            return "Succeed";
+        }
+        return "Something went wrong";
+    }
 }
