@@ -50,15 +50,6 @@ public class MemoryBookService {
                 .findFirst().get();
     }
 
-//    private boolean bookByIsbnIsAlreadyInMemory(Book book) {
-//        for (Book b : list) {
-//            if (b.getIsbn().equals(book.getIsbn())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
     public boolean updateBook(Book book) {
         if (getBookById(book.getId()).isPresent()) {
             int bookIndex = list.indexOf(getBookById(book.getId()).get());
